@@ -2,6 +2,8 @@ const apiKey = `3e62c88c7888c7a67a6064c1404706b0`;
 
 const form = document.querySelector(`form`);
 const input = document.querySelector(`form input`);
+const toggle = document.querySelector(`.form-switch`);
+
 
 form.addEventListener(`submit`, event => {
   event.preventDefault();
@@ -12,41 +14,54 @@ form.addEventListener(`submit`, event => {
   .then(data => {
     console.log(data)
     createCard(data)
+    input.value = ``;
   })
 
   .catch((error) => {
-    errorMessage = `<div class="alert alert-info" role="alert">${input.value} is not a valid city, please search for a valid one!</div>`
-    document.getElementById("main").innerHTML = errorMessage;
+    errorMessage = `<div class="alert alert-dark" role="alert">${input.value} is not a valid city, please search for a valid one!</div>`
+    document.getElementById("card").innerHTML = errorMessage;
   });
 });
 
 const createCard = (data) => {
     let html = (
       `
-      <div class="card card-body">
-        <h3>${data.name}, ${data.sys.country}</h3>
-        <p>${Math.round(data.main.temp)} C°</p>
-        <figure> 
-<img class="city-icon" src=http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png alt=${data.weather[0]["main"]}> 
-<figcaption>${data.weather[0]["description"]}</figcaption> 
-</figure>
-        <p>
-            <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            Show forecast
-            </button>
-        </p>
-        <div class="collapse" id="collapseExample">
-        <table>
-            5 days
-        </table>
-        </div>
+        <h3 class="h6">${data.name}, ${data.sys.country}</h3>
+        <i class="wi wi-owm-${data.weather[0].id} display-1"></i>
+        <p><span class="h1">${Math.round(data.main.temp)}°<span></p>
+        <p>${data.weather[0]["main"]}.</p>
+        <div class="row">
+          
+          <div class="col text-start">
+            <p class="fs-6">
+            <small>
+            <i class="wi wi-thermometer"></i> feels like ${Math.round(data.main.feels_like)}°<br>
+            <i class="wi wi-humidity"></i> humidity ${data.main.humidity}%<br>
+            <i class="wi wi-barometer"></i> pressure ${data.main.pressure} kPa<br>
+            </small>
+            </p>
+          </div>
+          <div class="col text-start">
+            <p>
+            <small>
+            <i class="wi wi-sunrise"></i> sun rise ${new Date(data.sys.sunrise * 1000).toLocaleTimeString()}<br>
+            <i class="wi wi-sunset"></i> sun set ${new Date(data.sys.sunset * 1000).toLocaleTimeString()}<br>
+            <i class="wi wi-strong-wind"></i> wind speed ${Math.round(data.wind.speed * 3.6)}km/h <i class="wi wi-wind from-${data.wind.deg}-deg"></i><br>
+            </small>
+            </p>
+          </div>
+          
         </div>
       `
     );
-    document.getElementById("main").innerHTML = html;
+    document.getElementById("card").innerHTML = html;
+    document.title = `${data.name} - weather`;
+
+    
 };
 
-
-// const getForecast = (data) => {
-//   forecastUrl = `api.openweathermap.org/data/2.5/forecast?q=${inputVal}&appid=${apiKey}`
-// }
+toggle.addEventListener(`change`, () => {
+  var element = document.body;
+  element.classList.toggle("dark-mode");
+  console.log(`done`)
+});
