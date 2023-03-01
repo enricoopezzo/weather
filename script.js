@@ -2,7 +2,8 @@ const apiKey = `3e62c88c7888c7a67a6064c1404706b0`;
 
 const form = document.querySelector(`form`);
 const input = document.querySelector(`form input`);
-const toggle = document.querySelector(`.form-switch`);
+const toggle = document.querySelector(`.form-check-input`);
+const toggleIcon = document.querySelector(`.form-switch label`)
 
 
 form.addEventListener(`submit`, event => {
@@ -26,27 +27,27 @@ form.addEventListener(`submit`, event => {
 const createCard = (data) => {
     let html = (
       `
-        <h3 class="h6">${data.name}, ${data.sys.country}</h3>
+        <h3 class="h6 mb-3">${data.name.toUpperCase()}, ${data.sys.country}</h3>
         <i class="wi wi-owm-${data.weather[0].id} display-1"></i>
-        <p><span class="h1">${Math.round(data.main.temp)}°<span></p>
-        <p>${data.weather[0]["main"]}.</p>
+        <p class="mb-5 fs-1"><span class="h1">${Math.round(data.main.temp)}°<span><br>
+          <span class="h2">${data.weather[0]["main"]}.</span>
+        </p>
         <div class="row">
-          
           <div class="col text-start">
             <p class="fs-6">
             <small>
             <i class="wi wi-thermometer"></i> feels like ${Math.round(data.main.feels_like)}°<br>
             <i class="wi wi-humidity"></i> humidity ${data.main.humidity}%<br>
-            <i class="wi wi-barometer"></i> pressure ${data.main.pressure} kPa<br>
+            <i class="wi wi-barometer"></i> pressure ${data.main.pressure}hPa<br>
             </small>
             </p>
           </div>
           <div class="col text-start">
             <p>
             <small>
-            <i class="wi wi-sunrise"></i> sun rise ${new Date(data.sys.sunrise * 1000).toLocaleTimeString()}<br>
-            <i class="wi wi-sunset"></i> sun set ${new Date(data.sys.sunset * 1000).toLocaleTimeString()}<br>
-            <i class="wi wi-strong-wind"></i> wind speed ${Math.round(data.wind.speed * 3.6)}km/h <i class="wi wi-wind from-${data.wind.deg}-deg"></i><br>
+            <i class="wi wi-sunrise"></i> sun rise ${new Date(data.sys.sunrise * 1000).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}<br>
+            <i class="wi wi-sunset"></i> sun set ${new Date(data.sys.sunset * 1000).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}<br>
+            <i class="wi wi-strong-wind"></i> wind ${Math.round(data.wind.speed * 3.6)}km/h <i class="wi wi-wind from-${data.wind.deg}-deg"></i><br>
             </small>
             </p>
           </div>
@@ -59,9 +60,16 @@ const createCard = (data) => {
 
     
 };
+//Dark mode
 
-toggle.addEventListener(`change`, () => {
-  var element = document.body;
-  element.classList.toggle("dark-mode");
-  console.log(`done`)
+toggle.addEventListener('change', () => {
+  const element = document.querySelector('html');
+  const darkModeOn = toggle.checked;
+  if (darkModeOn) {
+    element.setAttribute('data-bs-theme', 'dark');
+    toggleIcon.innerHTML = `<i class="wi wi-day-sunny"></i>`;
+  } else {
+    element.removeAttribute('data-bs-theme');
+    toggleIcon.innerHTML = `<i class="wi wi-night-clear"></i>`;
+  }
 });
