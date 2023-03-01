@@ -67,9 +67,10 @@ toggle.addEventListener('change', () => {
   const darkModeOn = toggle.checked;
   if (darkModeOn) {
     element.setAttribute('data-bs-theme', 'dark');
-    toggleIcon.innerHTML = `<i class="wi wi-day-sunny"></i>`;
+    toggleIcon.innerHTML = `<i class="wi wi-night-clear"></i>`;
   } else {
     element.removeAttribute('data-bs-theme');
-    toggleIcon.innerHTML = `<i class="wi wi-night-clear"></i>`;
+    
+    toggleIcon.innerHTML = `<i class="wi wi-day-sunny"></i>`;
   }
 });
