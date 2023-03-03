@@ -1,6 +1,7 @@
 # Weather App
 
-a simple app that shows current weather for the searched city.
+A simple app that shows current weather for the searched city.
+Styled using only bootstrap, without creating any stylesheet.
 
 ## Resources
 

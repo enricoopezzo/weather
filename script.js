@@ -57,8 +57,6 @@ const createCard = (data) => {
 
     document.getElementById(`card`).innerHTML = html;
     document.title = `Current Weather - ${data.name}`;
-
-    
 };
 
 // Dark mode
@@ -71,7 +69,6 @@ toggle.addEventListener(`change`, () => {
     toggleIcon.innerHTML = `<i class="wi wi-night-clear"></i>`;
   } else {
     element.removeAttribute(`data-bs-theme`);
-    
     toggleIcon.innerHTML = `<i class="wi wi-day-sunny"></i>`;
   }
 });
