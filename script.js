@@ -28,12 +28,9 @@ const createCard = (data) => {
     let html = (
       `
         <h3 class="h6 mb-3">${data.name.toUpperCase()}, ${data.sys.country}</h3>
-        <i class="wi wi-owm-${data.weather[0].icon.at(-1) === `d` ? `day-` + data.weather[0].id : `night-` + data.weather[0].id} display-1"></i>
+        <i class="wi wi-owm-${new Date(data.sys.sunrise *1000).getTime() <= new Date().getTime() && new Date(data.sys.sunset * 1000).getTime() > new Date().getTime() ? `day-` + data.weather[0].id : `night-` + data.weather[0].id} display-1"></i>
         <p class="mb-5 fs-1"><span class="h1">${Math.round(data.main.temp)}°<span><br>
-          <span class="h2">${data.weather[0]["main"]}.</span>
-          <span class="h6">${new Date((data.dt + data.timezone) * 1000).toLocaleTimeString(data.country, {hour: '2-digit', minute: '2-digit'})}</span>
-          <span class="h6">${new Date((data.dt + data.timezone) * 1000).toTimeString([], {hour: '2-digit', minute: '2-digit'})}</span>
-          
+          <span class="h2">${data.weather[0]["main"]}.</span>          
         </p>
         <div class="row">
           <div class="col text-start">
@@ -48,8 +45,8 @@ const createCard = (data) => {
           <div class="col text-start">
             <p>
             <small>
-            <i class="wi wi-sunrise"></i> sun rise ${new Date(data.sys.sunrise * 1000).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}<br>
-            <i class="wi wi-sunset"></i> sun set ${new Date(data.sys.sunset * 1000).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}<br>
+            <i class="wi wi-sunrise"></i> sunrise ${new Date((data.sys.sunrise + data.timezone) * 1000).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}<br>
+            <i class="wi wi-sunset"></i> sunset ${new Date((data.sys.sunset + data.timezone) * 1000).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}<br>
             <i class="wi wi-strong-wind"></i> wind ${Math.round(data.wind.speed * 3.6)}km/h <i class="wi wi-wind from-${data.wind.deg}-deg"></i><br>
             </small>
             </p>
