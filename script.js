@@ -13,6 +13,7 @@ form.addEventListener(`submit`, event => {
   fetch(url)
   .then(response => response.json())
   .then(data => {
+    console.log(data)
     createCard(data)
     input.value = ``;
   })
@@ -27,9 +28,12 @@ const createCard = (data) => {
     let html = (
       `
         <h3 class="h6 mb-3">${data.name.toUpperCase()}, ${data.sys.country}</h3>
-        <i class="wi wi-owm-${data.weather[0].id} display-1"></i>
+        <i class="wi wi-owm-${data.weather[0].icon.at(-1) === `d` ? `day-` + data.weather[0].id : `night-` + data.weather[0].id} display-1"></i>
         <p class="mb-5 fs-1"><span class="h1">${Math.round(data.main.temp)}°<span><br>
           <span class="h2">${data.weather[0]["main"]}.</span>
+          <span class="h6">${new Date((data.dt + data.timezone) * 1000).toLocaleTimeString(data.country, {hour: '2-digit', minute: '2-digit'})}</span>
+          <span class="h6">${new Date((data.dt + data.timezone) * 1000).toTimeString([], {hour: '2-digit', minute: '2-digit'})}</span>
+          
         </p>
         <div class="row">
           <div class="col text-start">
